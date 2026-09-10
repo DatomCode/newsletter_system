@@ -3,16 +3,27 @@ from .serializers import NewsletterSubscriberSerializer
 from rest_framework import status
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from rest_framework.permissions import AllowAny
+# from rest_framework.permissions import AllowAny
+from rest_framework.exceptions import Throttled
 from .throttles import NewsletterThrottle
 
 
 class SubscribeView(APIView):
     """Subscribe an email address to the newsletter."""
 
-    permission_classes = [AllowAny]
+    # permission_classes = [AllowAny]
     throttle_classes = [NewsletterThrottle]
-
+    def throttled(self, request, wait):
+             
+        # We create a custom dictionary with our specific message for this view
+        custom_message = {
+            "error": "Rate limit reached",
+            "message": f"Too many attempts, Please wait {int(wait)} seconds and try again.",
+            "retry_after": int(wait)
+        }
+        
+        raise Throttled(detail=custom_message) #return the custom message
+    
     @extend_schema(
         summary="Subscribe to newsletter",
         description=(
@@ -49,6 +60,9 @@ class SubscribeView(APIView):
         },
         tags=["Subscription"],
     )
+
+    
+        
     def post(self, request):
         serializer = NewsletterSubscriberSerializer(data=request.data)
 
@@ -60,3 +74,5 @@ class SubscribeView(APIView):
             )
 
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    
