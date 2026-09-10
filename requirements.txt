@@ -1,8 +1,10 @@
 asgiref==3.12.1
 Django==6.1.1
 djangorestframework==3.18.1
-dotenv==0.9.9
-psycopg2==2.9.12
+drf-spectacular==0.28.0
 python-dotenv==1.2.3
+psycopg2-binary==2.9.12
 sqlparse==0.6.0
 tzdata==2026.3
+gunicorn==23.0.0
+whitenoise==6.9.0

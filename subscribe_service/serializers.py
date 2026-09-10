@@ -5,9 +5,8 @@ from .models import NewsletterSubscriber
 class NewsletterSubscriberSerializer(serializers.ModelSerializer):
     class Meta:
         model = NewsletterSubscriber
-        fields = __all__
+        fields = ['email']
 
-    #strip the eamil to lower case
-    def validate(self, value):
-        clean_email = value.lower()
-        return clean_email
+    # Normalise email to lowercase before saving
+    def validate_email(self, value):
+        return value.strip().lower()
