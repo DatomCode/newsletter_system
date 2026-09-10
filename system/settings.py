@@ -138,3 +138,11 @@ MAILERS = {
         'BACKEND': 'django.core.mail.backends.console.EmailBackend',
     },
 }
+
+# Restframeweork
+
+REST_FRAMEWORK = {
+    "DEFAULT_THROTTLES_RATES" : {
+        "subscribe_service" : "5/min"
+    }
+}
