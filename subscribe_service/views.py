@@ -3,7 +3,6 @@ from .serializers import NewsletterSubscriberSerializer
 from rest_framework import status
 from rest_framework.views import APIView
 from rest_framework.response import Response
-# from rest_framework.permissions import AllowAny
 from rest_framework.exceptions import Throttled
 from .throttles import NewsletterThrottle
 
@@ -11,7 +10,6 @@ from .throttles import NewsletterThrottle
 class SubscribeView(APIView):
     """Subscribe an email address to the newsletter."""
 
-    # permission_classes = [AllowAny]
     throttle_classes = [NewsletterThrottle]
     def throttled(self, request, wait):
              
